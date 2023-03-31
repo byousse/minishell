@@ -6,7 +6,7 @@
 /*   By: byoussef <byoussef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:06:40 by byoussef          #+#    #+#             */
-/*   Updated: 2023/03/31 16:06:41 by byoussef         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:12:13 by byoussef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,76 +28,76 @@ void	body(char *line)
 	finals = NULL;
 	// finals_maker(tokens, &finals);
 	c = NULL;
-	if(tokens)
+	// if(tokens)
+	// {
+	// 	while (tokens->next)
+	// 	{
+	// 			if( tokens->type != SPACE )
+	// 				c = ft_strjoin(c, tokens->value);
+	// 			if( tokens->next->type == SPACE)
+	// 			{
+	// 				addback(&finals, c, WORD);
+	// 				c = NULL;
+	// 				tokens = tokens->next;	
+	// 			}
+	// 			else if(tokens->next->value[0] == '|')
+	// 			{
+	// 				if(c)
+	// 					addback(&finals, c, WORD);
+	// 				addback(&finals, tokens->next->value, PIPE);
+	// 				c = NULL;
+	// 				if(tokens->next->next)
+	// 					tokens = tokens->next;
+	// 			}
+	// 			else if(tokens->next->value[0] == '<')
+	// 			{
+	// 				if(c)
+	// 					addback(&finals, c, WORD);
+	// 				addback(&finals, tokens->next->value, LEFTRED);
+	// 				c = NULL;
+	// 				if(tokens->next->next)
+	// 					tokens = tokens->next;	
+	// 			}
+	// 			else if(tokens->next->value[0] == '>')
+	// 			{
+	// 				if(c)
+	// 					addback(&finals, c, WORD);
+	// 				addback(&finals, tokens->next->value, RIGHTRED);
+	// 				c = NULL;
+	// 				if(tokens->next->next)
+	// 					tokens = tokens->next;	
+	// 			}
+	// 			else if(tokens->next->value[0] == '>' && tokens->next->value[1] == '>')
+	// 			{
+	// 				if(c)
+	// 					addback(&finals, c, WORD);
+	// 				addback(&finals, tokens->next->value, APPEND);
+	// 				c = NULL;
+	// 				if(tokens->next->next)
+	// 					tokens = tokens->next;	
+	// 			}
+	// 			else if(tokens->next->value[0] == '<' && tokens->next->value[1] == '<')
+	// 			{
+	// 				if(c)
+	// 					addback(&finals, c, WORD);
+	// 				addback(&finals, tokens->next->value, HEREDOC);
+	// 				c = NULL;
+	// 				if(tokens->next->next)
+	// 					tokens = tokens->next;	
+	// 			}
+	// 			tokens = tokens->next;
+	// 	}
+	// 		if(tokens->value[0] != '|')
+	// 		{
+	// 			c = ft_strjoin(c, tokens->value);
+	// 			addback(&finals, c, WORD);
+	// 		}
+	// 	free(c);	
+	// }
+	while (tokens)
 	{
-		while (tokens->next)
-		{
-				if( tokens->type != SPACE )
-					c = ft_strjoin(c, tokens->value);
-				if( tokens->next->type == SPACE)
-				{
-					addback(&finals, c, WORD);
-					c = NULL;
-					tokens = tokens->next;	
-				}
-				else if(tokens->next->value[0] == '|')
-				{
-					if(c)
-						addback(&finals, c, WORD);
-					addback(&finals, tokens->next->value, PIPE);
-					c = NULL;
-					if(tokens->next->next)
-						tokens = tokens->next;
-				}
-				else if(tokens->next->value[0] == '<')
-				{
-					if(c)
-						addback(&finals, c, WORD);
-					addback(&finals, tokens->next->value, LEFTRED);
-					c = NULL;
-					if(tokens->next->next)
-						tokens = tokens->next;	
-				}
-				else if(tokens->next->value[0] == '>')
-				{
-					if(c)
-						addback(&finals, c, WORD);
-					addback(&finals, tokens->next->value, RIGHTRED);
-					c = NULL;
-					if(tokens->next->next)
-						tokens = tokens->next;	
-				}
-				else if(tokens->next->value[0] == '>' && tokens->next->value[1] == '>')
-				{
-					if(c)
-						addback(&finals, c, WORD);
-					addback(&finals, tokens->next->value, APPEND);
-					c = NULL;
-					if(tokens->next->next)
-						tokens = tokens->next;	
-				}
-				else if(tokens->next->value[0] == '<' && tokens->next->value[1] == '<')
-				{
-					if(c)
-						addback(&finals, c, WORD);
-					addback(&finals, tokens->next->value, HEREDOC);
-					c = NULL;
-					if(tokens->next->next)
-						tokens = tokens->next;	
-				}
-				tokens = tokens->next;
-		}
-			if(tokens->value[0] != '|')
-			{
-				c = ft_strjoin(c, tokens->value);
-				addback(&finals, c, WORD);
-			}
-		free(c);	
-	}
-	while (finals)
-	{
-		printf("*%s*\n", finals->value);
-		finals = finals->next;
+		printf("*%s*  %d\n", tokens->value, tokens->type);
+		tokens = tokens->next;
 	}
 }
 

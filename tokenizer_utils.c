@@ -6,7 +6,7 @@
 /*   By: byoussef <byoussef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:44:42 by mazaroua          #+#    #+#             */
-/*   Updated: 2023/03/31 16:06:10 by byoussef         ###   ########.fr       */
+/*   Updated: 2023/03/31 16:10:29 by byoussef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ char    *is_wspace(t_token_list **tokens, char *line)
     i = 0;
     while (ft_strchr(" \t\v\f\r", line[i]) && line[i])
         i++;
-	char *word = malloc(i + 1);
-	word
     addback(tokens, " ", SPACE);
     return (line + i);
 }

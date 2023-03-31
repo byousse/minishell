@@ -7,7 +7,7 @@
       "request": "launch",
       "args": [],
       "cwd": "/Users/byoussef/Desktop/minihell 2 2",
-      "program": "/Users/byoussef/Desktop/minihell 2 2/minishell"
+      "program": "/Users/byoussef/Desktop/minihell 2 2/build/Debug/outDebug"
     }
   ]
 }

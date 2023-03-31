@@ -6,49 +6,106 @@
 /*   By: byoussef <byoussef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 15:26:43 by mazaroua          #+#    #+#             */
-/*   Updated: 2023/03/19 20:44:18 by byoussef         ###   ########.fr       */
+/*   Updated: 2023/03/31 15:54:39 by byoussef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-
-t_token_list *tokenizer(char *line)
+void	body(char *line)
 {
 	t_token_list	*tokens;
-	int	i = 0;
+	t_token_list	*finals;
 
-	tokens = NULL;
-    while (*line)
-    {
-        if (ft_strchr(" \t\v\f\r", *line))
-            line = is_wspace(&tokens, line);
-        else if (ft_strchr("><", *line))
-            line = is_redirections(&tokens, line);
-        else if (ft_strchr("$|", *line))
-            line = is_dollar_pipe(&tokens, line);
-        else if (ft_strchr("\'", *line))
+	tokens = tokenizer(line);
+	
+	syntax_red(&tokens);
+	syntax_pipe(&tokens);
+	char *c;
+	finals = NULL;
+	// finals_maker(tokens, &finals);
+	c = NULL;
+	if(tokens)
+	{
+		while (tokens->next)
 		{
-            line = is_squote(&tokens, line, &i);
-			if (i == 1)
-			{
-				break;
-			}
-				
+				if( tokens->type != SPACE )
+					c = ft_strjoin(c, tokens->value);
+				if( tokens->next->type == SPACE)
+				{
+					addback(&finals, c, WORD);
+					c = NULL;
+					tokens = tokens->next;	
+				}
+				else if(tokens->next->value[0] == '|')
+				{
+					if(c)
+						addback(&finals, c, WORD);
+					addback(&finals, tokens->next->value, PIPE);
+					c = NULL;
+					if(tokens->next->next)
+						tokens = tokens->next;
+				}
+				else if(tokens->next->value[0] == '<')
+				{
+					if(c)
+						addback(&finals, c, WORD);
+					addback(&finals, tokens->next->value, LEFTRED);
+					c = NULL;
+					if(tokens->next->next)
+						tokens = tokens->next;	
+				}
+				else if(tokens->next->value[0] == '>')
+				{
+					if(c)
+						addback(&finals, c, WORD);
+					addback(&finals, tokens->next->value, RIGHTRED);
+					c = NULL;
+					if(tokens->next->next)
+						tokens = tokens->next;	
+				}
+				else if(tokens->next->value[0] == '>' && tokens->next->value[1] == '>')
+				{
+					if(c)
+						addback(&finals, c, WORD);
+					addback(&finals, tokens->next->value, APPEND);
+					c = NULL;
+					if(tokens->next->next)
+						tokens = tokens->next;	
+				}
+				else if(tokens->next->value[0] == '<' && tokens->next->value[1] == '<')
+				{
+					if(c)
+						addback(&finals, c, WORD);
+					addback(&finals, tokens->next->value, HEREDOC);
+					c = NULL;
+					if(tokens->next->next)
+						tokens = tokens->next;	
+				}
+				tokens = tokens->next;
 		}
-        else
-            line = is_word(&tokens, line);
-    }
-	return(tokens);
+			if(tokens->value[0] != '|')
+			{
+				c = ft_strjoin(c, tokens->value);
+				addback(&finals, c, WORD);
+			}
+		free(c);	
+	}
+	while (finals)
+	{
+		printf("*%s*\n", finals->value);
+		finals = finals->next;
+	}
 }
 
 char    *prompt(void)
 {
     char	*line;
 
-	line = readline("\x1B[36m""minishell$ ""\001\e[0m\002");
+	line = readline("\033[33m""minishell$ ""\001\e[0m\002");
 	add_history(line);
+	
 	line = remove_additional_spaces(line);
     return (line);
 }
@@ -56,16 +113,12 @@ char    *prompt(void)
 int main()
 {
     char	*line;
-	t_token_list	*token;
 
     while (1)
     {
 		line = prompt();
-		token = tokenizer(line);
-		while (token)
-		{
-			printf("%s|\n", token->value);
-			token = token->next;
-		}
+		if (!ft_strcmp(line, "exit"))
+			exit(0);
+		body(line);
     }
 }

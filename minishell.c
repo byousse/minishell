@@ -6,7 +6,7 @@
 /*   By: byoussef <byoussef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:06:40 by byoussef          #+#    #+#             */
-/*   Updated: 2023/03/31 16:12:13 by byoussef         ###   ########.fr       */
+/*   Updated: 2023/04/04 14:05:54 by byoussef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,85 +20,18 @@ void	body(char *line)
 	t_token_list	*tokens;
 	t_token_list	*finals;
 
-	tokens = tokenizer(line);
-	
-	syntax_red(&tokens);
-	syntax_pipe(&tokens);
-	char *c;
-	finals = NULL;
-	// finals_maker(tokens, &finals);
-	c = NULL;
-	// if(tokens)
-	// {
-	// 	while (tokens->next)
-	// 	{
-	// 			if( tokens->type != SPACE )
-	// 				c = ft_strjoin(c, tokens->value);
-	// 			if( tokens->next->type == SPACE)
-	// 			{
-	// 				addback(&finals, c, WORD);
-	// 				c = NULL;
-	// 				tokens = tokens->next;	
-	// 			}
-	// 			else if(tokens->next->value[0] == '|')
-	// 			{
-	// 				if(c)
-	// 					addback(&finals, c, WORD);
-	// 				addback(&finals, tokens->next->value, PIPE);
-	// 				c = NULL;
-	// 				if(tokens->next->next)
-	// 					tokens = tokens->next;
-	// 			}
-	// 			else if(tokens->next->value[0] == '<')
-	// 			{
-	// 				if(c)
-	// 					addback(&finals, c, WORD);
-	// 				addback(&finals, tokens->next->value, LEFTRED);
-	// 				c = NULL;
-	// 				if(tokens->next->next)
-	// 					tokens = tokens->next;	
-	// 			}
-	// 			else if(tokens->next->value[0] == '>')
-	// 			{
-	// 				if(c)
-	// 					addback(&finals, c, WORD);
-	// 				addback(&finals, tokens->next->value, RIGHTRED);
-	// 				c = NULL;
-	// 				if(tokens->next->next)
-	// 					tokens = tokens->next;	
-	// 			}
-	// 			else if(tokens->next->value[0] == '>' && tokens->next->value[1] == '>')
-	// 			{
-	// 				if(c)
-	// 					addback(&finals, c, WORD);
-	// 				addback(&finals, tokens->next->value, APPEND);
-	// 				c = NULL;
-	// 				if(tokens->next->next)
-	// 					tokens = tokens->next;	
-	// 			}
-	// 			else if(tokens->next->value[0] == '<' && tokens->next->value[1] == '<')
-	// 			{
-	// 				if(c)
-	// 					addback(&finals, c, WORD);
-	// 				addback(&finals, tokens->next->value, HEREDOC);
-	// 				c = NULL;
-	// 				if(tokens->next->next)
-	// 					tokens = tokens->next;	
-	// 			}
-	// 			tokens = tokens->next;
-	// 	}
-	// 		if(tokens->value[0] != '|')
-	// 		{
-	// 			c = ft_strjoin(c, tokens->value);
-	// 			addback(&finals, c, WORD);
-	// 		}
-	// 	free(c);	
-	// }
-	while (tokens)
-	{
-		printf("*%s*  %d\n", tokens->value, tokens->type);
-		tokens = tokens->next;
-	}
+		tokens = tokenizer(line);
+		syntax_red(&tokens);
+		syntax_pipe(&tokens);
+		char *c;
+		finals = NULL;
+		c = NULL;
+		finals_m(tokens, &finals);
+		while (finals)
+		{
+			printf("*%s*  %d\n", finals->value, finals->type);
+			finals = finals->next;
+		}
 }
 
 char    *prompt(void)
@@ -122,5 +55,6 @@ int main()
 		if (!ft_strcmp(line, "exit"))
 			exit(0);
 		body(line);
+		free(line);
     }
 }

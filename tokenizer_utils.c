@@ -6,7 +6,7 @@
 /*   By: byoussef <byoussef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:44:42 by mazaroua          #+#    #+#             */
-/*   Updated: 2023/03/31 16:10:29 by byoussef         ###   ########.fr       */
+/*   Updated: 2023/04/03 15:41:04 by byoussef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char    *is_word(t_token_list **tokens, char *line)
         i++;
 	word = malloc((i + 1) * sizeof(char));
 	int	j = 0;
-	while (!ft_strchr(" \t\v\f\r><$|\"\'", line[j]) && line[j])
+	while (!ft_strchr(" \t\v\f\r><$|\"\'", line[j]))
 	{
 		word[j] = line[j];
 		j++;
@@ -95,7 +95,9 @@ int is_open_quote(char *line, char quote)
             x++;
         i++;
     }
-    return (x % 2);
+	// printf("%c\n", quote);
+	// printf("%d\n", x);
+    return (x);
 }
 
 int to_alloc(char *line)
@@ -181,34 +183,26 @@ char    *is_squote(t_token_list **tokens, char *line, int *open)
 	return (line + i);
 }
 
-char	*is_dquote(t_token_list **tokens, char *line, int *open)
+char	*is_dquote(t_token_list **tokens, char *line)
 {
 	int i;
     int j;
-    int count;
     int flag;
     char    *word;
 
     i = 0;
     j = 0;
-
-    count = is_open_quote(line, '\"');
     flag = 0;
 	word = malloc(to_alloc(line) + 1);	
-	if (count == 0)
-	{
+
 		while (line[i])
 		{
-			if (line[i] == '\'')
-				break;
 			if (line[i] == 34 && flag == 0)
 			{
 				i++;
 				flag = 1;
 			}
-			if ((line[i] == 32) && flag == 0)
-				break ;
-			if(line[i] != 34 )
+			if(line[i] != 34)
 			{
 				word[j] = line[i];
 				i++;
@@ -223,7 +217,7 @@ char	*is_dquote(t_token_list **tokens, char *line, int *open)
 			{
 				flag = 0;
 				i++;
-				// break;
+				break;
 			}
 			
 		}
@@ -232,13 +226,6 @@ char	*is_dquote(t_token_list **tokens, char *line, int *open)
             word[j]= '\0';
             addback(tokens, word, WORD);
         }
-	}
-	else
-	{
-		write(1, "Open quote\n", ft_strlen("Open quote\n"));
-		ft_lstclear(tokens);
-		*open = 1;
-	}
 	return (line + i);
 }
 

@@ -6,7 +6,7 @@
 /*   By: byoussef <byoussef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 16:06:20 by byoussef          #+#    #+#             */
-/*   Updated: 2023/03/31 16:06:21 by byoussef         ###   ########.fr       */
+/*   Updated: 2023/04/03 12:17:08 by byoussef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@
 t_token_list *tokenizer(char *line)
 {
 	t_token_list	*tokens;
-	int	i = 0;
 	tokens = NULL;
 	
     while (*line)
     {
+		// printf("%s\n", line);
         if (ft_strchr(" \t\v\f\r", *line))
             line = is_wspace(&tokens, line);
         else if (ft_strchr("><", *line))
@@ -39,21 +39,26 @@ t_token_list *tokenizer(char *line)
             line = is_dollar_pipe(&tokens, line);
         else if (ft_strchr("\'", *line))
 		{
-			if(is_open_quote(line, '\''))
+			if(is_open_quote(line, '\'') < 2)
 			{
-				printf("open quote!!\n");
+				printf("\e[1;31m open quotes1!\n \e[0m");
+				ft_lstclear(&tokens);
 				break;
-			}
-			else
-				line = quotes_maker(&tokens, line);	
+			}	
+			line = quotes_maker(&tokens, line);
 		}
 		else if (ft_strchr("\"", *line))
 		{
-			line = is_dquote(&tokens, line, &i);
+			if(is_open_quote(line, '\"') < 2)
+			{
+				printf("\e[1;31m open quotes2!\n \e[0m");
+				ft_lstclear(&tokens);
+				break;
+			}
+			line = is_dquote(&tokens, line);
 			if (*line == '$')
 				line = afdollar(&tokens, line);
-			if (i == 1)
-				break;
+			
 		}
         else
 		{

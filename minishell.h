@@ -25,13 +25,6 @@ typedef struct line
 	struct line		*next;
 }					t_token_list;
 
-typedef struct s_list
-{
-	char			*value;
-	char			*type;
-	struct s_list	*next;
-	// char    *type2;
-}					t_list;
 
 // Tokenizer Utils
 t_token_list		*tokenizer(char *line);
@@ -40,14 +33,15 @@ char				*is_wspace(t_token_list **tokens, char *line);
 char				*is_dollar_pipe(t_token_list **tokens, char *line);
 char				*is_word(t_token_list **tokens, char *line);
 char				*is_squote(t_token_list **tokens, char *line, int *open);
-char				*is_dquote(t_token_list **tokens, char *line, int *open);
+char	*is_dquote(t_token_list **tokens, char *line);
 char				*afdollar(t_token_list **tokens, char *line);
+void	finals_m(t_token_list	*tokens, t_token_list	**finals);
 
 // Syntax
 void				syntax_red(t_token_list **tokens);
 void				syntax_pipe(t_token_list **tokens);
 
-int					is_open_quote(char *line, char quote);
+int is_open_quote(char *line, char quote);
 int					ft_strcmp(char *s1, char *s2);
 int					ft_strlen(char *str);
 int					count(char *line);

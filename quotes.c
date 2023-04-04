@@ -6,7 +6,7 @@
 /*   By: byoussef <byoussef@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 12:23:39 by byoussef          #+#    #+#             */
-/*   Updated: 2023/03/31 15:51:14 by byoussef         ###   ########.fr       */
+/*   Updated: 2023/04/01 12:19:31 by byoussef         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*word_maker(t_token_list	**tokens,char *line)
 			word[i] = line[i];
 			i++;
 		}
-		word[i + 1] = '\0';
+		word[i] = '\0';
 		addback(tokens, word, WORD);
 		// free(word);
 		return(line + i);
